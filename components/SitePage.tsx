@@ -185,10 +185,17 @@ function Home({ language }: Pick<PageProps, "language">) {
   const text = labels[language];
   return (
     <>
+      <section className="home-identity">
+        <img className="home-identity-logo" src="/eb-logo.png" alt="EB Erich Bertol" />
+        <div>
+          <h1>Erich Bertol</h1>
+          <p>{de ? "Facharzt für Orthopädie" : "Specialista in ortopedia"}</p>
+        </div>
+      </section>
       <section className="home-hero">
         <div>
           <img className="home-orthopedic-logo" src="/orthopedic-logo.png" alt="Orthopedic" />
-          <h1>{de ? "Praxis in Meran für konservative Orthopädie" : "Trattamento ortopedico conservativo"}</h1>
+          <h2 className="home-practice-title">{de ? "Praxis in Meran für konservative Orthopädie" : "Trattamento ortopedico conservativo"}</h2>
           <p className="intro-copy">
             {de
               ? "Konservative Behandlung ist die Alternative zur operativen Behandlung."
