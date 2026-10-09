@@ -88,7 +88,7 @@ function Header({ language, page }: PageProps) {
       </a>
       <div className="header-inner">
         <a className="brand" href={routes[language].home} aria-label="Dr. Erich Bertol">
-          <img src="/eb-logo.png" alt="EB Erich Bertol" />
+          <img src="/eb-monogram.png" alt="EB" />
           <span className="brand-copy">
             <strong>Dr. Erich Bertol</strong>
             <span>{text.specialty}</span>
@@ -186,7 +186,7 @@ function Home({ language }: Pick<PageProps, "language">) {
   return (
     <>
       <section className="home-identity">
-        <img className="home-identity-logo" src="/eb-logo.png" alt="EB Erich Bertol" />
+        <img className="home-identity-logo" src="/eb-monogram.png" alt="EB" />
         <div>
           <h1>Erich Bertol</h1>
           <p>{de ? "Facharzt für Orthopädie" : "Specialista in ortopedia"}</p>
