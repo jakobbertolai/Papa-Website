@@ -49,7 +49,7 @@ const labels = {
     call: "Sekretariat anrufen",
     map: "Karte öffnen",
     skip: "Zum Inhalt springen",
-    photo: "Praxisfoto wird nachgereicht",
+    photo: "Dr. Erich Bertol bei der orthopädischen Befundbesprechung",
     footer: "Praxis für konservative orthopädische Behandlung",
     imprint: "Impressum",
     privacy: "Datenschutz",
@@ -67,7 +67,7 @@ const labels = {
     call: "Chiama la segreteria",
     map: "Apri la mappa",
     skip: "Vai al contenuto",
-    photo: "Foto dello studio in arrivo",
+    photo: "Dr. Erich Bertol durante la valutazione ortopedica",
     footer: "Studio di ortopedia conservativa",
     imprint: "Note legali",
     privacy: "Privacy",
@@ -79,7 +79,7 @@ function Header({ language, page }: PageProps) {
   const text = labels[language];
   const languageTarget = language === "de" ? "it" : "de";
   const languageLabel = language === "de" ? "IT" : "DE";
-  const navItems: PageName[] = ["home", "services", "practice", "about", "contact"];
+  const navItems: PageName[] = ["home", "services", "about"];
 
   return (
     <header className="site-header">
@@ -100,6 +100,9 @@ function Header({ language, page }: PageProps) {
               {text[item]}
             </a>
           ))}
+          <a href={routes[language].contact} aria-current={page === "contact" || page === "practice" ? "page" : undefined}>
+            {text.contact}
+          </a>
           <a className="language-link" href={routes[languageTarget][page]} lang={languageTarget}>
             {languageLabel}
           </a>
@@ -120,6 +123,7 @@ function Header({ language, page }: PageProps) {
             {text[item]}
           </a>
         ))}
+        <a href={routes[language].contact} onClick={() => setMenuOpen(false)}>{text.contact}</a>
         <a className="language-mobile" href={routes[languageTarget][page]} lang={languageTarget}>
           {languageLabel}
         </a>
@@ -154,17 +158,14 @@ function Footer({ language }: Pick<PageProps, "language">) {
 
 function PhotoPlaceholder({ language }: Pick<PageProps, "language">) {
   return (
-    <div className="photo-placeholder" role="img" aria-label={labels[language].photo}>
-      <span>{labels[language].photo}</span>
-    </div>
+    <div className="photo-placeholder" role="img" aria-label={labels[language].photo} />
   );
 }
 
-function Location({ language }: Pick<PageProps, "language">) {
+function Location({ language, variant = "dark" }: Pick<PageProps, "language"> & { variant?: "dark" | "light" }) {
   const text = labels[language];
   return (
-    <section className="location-block" aria-labelledby="location-title">
-      <p className="eyebrow">{language === "de" ? "Standort" : "Sede"}</p>
+    <section className={`location-block location-block--${variant}`} aria-labelledby="location-title">
       <h2 id="location-title">Meran</h2>
       <p>
         Otto-Huber-Straße 45
@@ -186,11 +187,11 @@ function Home({ language }: Pick<PageProps, "language">) {
     <>
       <section className="home-hero">
         <div>
-          <p className="eyebrow">{de ? "Praxis in Meran" : "Studio a Merano"}</p>
-          <h1>{de ? "Konservative orthopädische Behandlung" : "Trattamento ortopedico conservativo"}</h1>
+          <img className="home-orthopedic-logo" src="/orthopedic-logo.png" alt="Orthopedic" />
+          <h1>{de ? "Praxis in Meran für konservative Orthopädie" : "Trattamento ortopedico conservativo"}</h1>
           <p className="intro-copy">
             {de
-              ? "Im Mittelpunkt der konservativen Orthopädie steht die Heilung, nicht die Reparatur."
+              ? "Konservative Behandlung ist die Alternative zur operativen Behandlung."
               : "Al centro dell’ortopedia conservativa c’è la guarigione, non la riparazione."}
           </p>
           <div className="button-row">
@@ -204,11 +205,6 @@ function Home({ language }: Pick<PageProps, "language">) {
         </div>
         <div className="hero-side">
           <h3>{text.appointment}</h3>
-          <p>
-            {de
-              ? "Termine nur nach Voranmeldung über das Sekretariat."
-              : "Appuntamenti solo previa prenotazione tramite la segreteria."}
-          </p>
           <a className="phone-link" href={phoneHref}>
             0473 661012
           </a>
@@ -218,22 +214,21 @@ function Home({ language }: Pick<PageProps, "language">) {
       <section className="quiet-band">
         <div className="section two-column">
           <div>
-            <p className="eyebrow">{de ? "Schwerpunkte" : "Ambiti"}</p>
-            <h2>{de ? "Orientierung statt Informationsflut." : "Orientamento senza sovraccarico di informazioni."}</h2>
+            <h2>{de ? "Schmerztherapie und Prävention durch" : "La vostra salute al centro."}</h2>
           </div>
           <ul className="fact-list">
-            <li>
-              <strong>{de ? "Infiltrationen" : "Infiltrazioni"}</strong>
-              <span>{de ? "Gezielt und ärztlich abgewogen." : "Mirate e valutate dal medico."}</span>
-            </li>
-            <li>
-              <strong>{de ? "Manuelle Medizin" : "Medicina manuale"}</strong>
-              <span>{de ? "Konservative orthopädische Behandlung." : "Trattamento ortopedico conservativo."}</span>
-            </li>
-            <li>
-              <strong>{de ? "Schmerztherapie und Prävention" : "Terapia del dolore e prevenzione"}</strong>
-              <span>{de ? "Bei Bedarf individuell besprochen." : "Da discutere individualmente quando necessario."}</span>
-            </li>
+            {de ? (
+              <>
+                <li><strong>Manuelle Medizin</strong></li>
+                <li><strong>Infiltrationen</strong></li>
+              </>
+            ) : (
+              <>
+                <li><strong>Infiltrazioni</strong><span>Mirate e valutate dal medico.</span></li>
+                <li><strong>Medicina manuale</strong><span>Trattamento ortopedico conservativo.</span></li>
+                <li><strong>Terapia del dolore e prevenzione</strong><span>Da discutere individualmente quando necessario.</span></li>
+              </>
+            )}
           </ul>
         </div>
       </section>
@@ -250,10 +245,9 @@ function Services({ language }: Pick<PageProps, "language">) {
   const de = language === "de";
   const rows = de
     ? [
-        ["01", "Infiltrationen"],
-        ["02", "Manuelle Medizin"],
-        ["03", "Spezielle Schmerztherapie"],
-        ["04", "Prävention"],
+        ["01", "Abnutzung von Gelenken"],
+        ["02", "Nerveneinklemmungen durch Bandscheiben"],
+        ["03", "Blockaden an der Wirbelsäule"],
       ]
     : [
         ["01", "Infiltrazioni"],
@@ -264,10 +258,10 @@ function Services({ language }: Pick<PageProps, "language">) {
   return (
     <>
       <section className="page-intro">
-        <p className="eyebrow">{de ? "Leistungen" : "Prestazioni"}</p>
-        <h1>{de ? "Konservative Behandlung bei fehlender Operationsindikation." : "Trattamento conservativo quando non è indicato un intervento chirurgico."}</h1>
+        <h1>{de ? "Konservative Behandlung" : "Trattamento conservativo"}</h1>
+        {de && <p className="page-subtitle">Prävention gegen / Behandlung von:</p>}
       </section>
-      <section className="page-grid">
+      <section className="page-grid single-column">
         <div className="service-list">
           {rows.map(([number, name]) => (
             <div className="service-row" key={number}>
@@ -276,27 +270,6 @@ function Services({ language }: Pick<PageProps, "language">) {
             </div>
           ))}
         </div>
-        <aside className="side-note">
-          <h3>{de ? "Häufige Anliegen" : "Motivi frequenti"}</h3>
-          <ul className="pill-list">
-            <li>{de ? "Knieschmerzen" : "Dolore al ginocchio"}</li>
-            <li>{de ? "Kreuzschmerzen" : "Mal di schiena"}</li>
-          </ul>
-        </aside>
-      </section>
-      <section className="quiet-band">
-        <div className="section">
-          <p className="quote">
-            {de
-              ? "Medikamentöse Behandlung gezielt anwenden statt mit Tabletten zu behandeln."
-              : "Applicare il trattamento farmacologico in modo mirato, invece di trattare semplicemente con compresse."}
-          </p>
-          <p className="quote-note">
-            {de
-              ? "Heilung ist kein Versprechen. Jede ärztliche Handlung hat eine Wirkung und möglicherweise eine Nebenwirkung."
-              : "La guarigione non è una promessa. Ogni atto medico ha un effetto e può avere anche effetti indesiderati."}
-          </p>
-        </div>
       </section>
     </>
   );
@@ -304,33 +277,25 @@ function Services({ language }: Pick<PageProps, "language">) {
 
 function Practice({ language }: Pick<PageProps, "language">) {
   const de = language === "de";
-  const text = labels[language];
   return (
     <>
-      <section className="page-intro">
-        <p className="eyebrow">{de ? "Praxis" : "Studio"}</p>
-        <h1>{de ? "Ein Standort. Klar erreichbar." : "Un’unica sede. Facile da raggiungere."}</h1>
-        <p className="intro-copy">
-          {de
-            ? "Die Praxis befindet sich in Meran. Termine werden über das Sekretariat vereinbart."
-            : "Lo studio si trova a Merano. Gli appuntamenti vengono concordati tramite la segreteria."}
-        </p>
+      <section className="page-intro practice-intro">
+        <div>
+          <h1>{de ? "Direkt vor Ort." : "Direttamente sul posto."}</h1>
+          <p className="intro-copy">
+            {de
+              ? "Die Praxis befindet sich in Meran. Termine werden über das Sekretariat vereinbart."
+              : "Lo studio si trova a Merano. Gli appuntamenti vengono concordati tramite la segreteria."}
+          </p>
+        </div>
+        <img
+          className="practice-photo"
+          src="/praxis-wartebereich.png"
+          alt={de ? "Wartebereich der Praxis Dr. Erich Bertol" : "Sala d’attesa dello studio del Dr. Erich Bertol"}
+        />
       </section>
-      <section className="page-grid">
+      <section className="page-grid single-column">
         <Location language={language} />
-        <div className="side-note">
-          <h3>{de ? "In der Praxis" : "Nello studio"}</h3>
-          <ul className="fact-list">
-            <li><strong>{de ? "Barrierefreiheit" : "Accessibilità"}</strong></li>
-            <li><strong>{de ? "Manuelle Diagnostik" : "Diagnostica manuale"}</strong></li>
-            <li><strong>{text.appointment}</strong></li>
-          </ul>
-        </div>
-      </section>
-      <section className="quiet-band">
-        <div className="section">
-          <PhotoPlaceholder language={language} />
-        </div>
       </section>
     </>
   );
@@ -340,31 +305,39 @@ function About({ language }: Pick<PageProps, "language">) {
   const de = language === "de";
   const items = de
     ? [
+        ["1980", "Matura am Humanistischen Gymnasium Bozen."],
         ["1991", "Promotion an der Leopold-Franzens-Universität Innsbruck."],
+        ["1992", "Zivildienst beim Roten Kreuz Bad Ischl (Oberösterreich)."],
+        ["1992–1996", "Allgemeinmedizin: Turnusarzt am Landeskrankenhaus Schärding am Inn (Oberösterreich)."],
+        ["1996–1997", "Mitarbeit am Orthopädischen Landeskrankenhaus Stolzalpe bei Prof. R. Graf (Steiermark)."],
+        ["1997–1999", "Assistenzarzt für Orthopädie und Unfallchirurgie am Krankenhaus Meran bei Chefarzt Dr. H. Waldner (Südtirol)."],
+        ["1999–2002", "Assistenzarzt Orthopädie I° an der Hessingklinik Augsburg bei Prof. Dr. Dr. Klaus Asmus Matzen (Bayern)."],
         ["2002", "Abschluss Facharzt für Orthopädie, Ärztekammer Wien."],
         ["2002–06", "Oberarzt, Abteilung Orthopädie am Krankenhaus Meran; Schwerpunkt Wirbelsäulenchirurgie."],
-        ["2006", "Niederlassung in einer Praxis für konservative Orthopädie in Plaus."],
-        ["2017", "Niederlassung in einer Praxis für konservative Orthopädie in Meran."],
-        ["2026", "Hauptsitz der Praxis in Meran."],
+        ["2006", "Niederlassung in einer Praxis für konservative Orthopädie in Plaus (Südtirol)."],
+        ["2010", "Niederlassung in einer Praxis für konservative Orthopädie in Neumarkt (Südtirol)."],
+        ["2017", "Hauptsitz in einer Praxis für konservative Orthopädie in Meran (Südtirol)."],
       ]
     : [
+        ["1980", "Maturità al Liceo classico di Bolzano."],
         ["1991", "Laurea presso l’Università Leopold Franzens di Innsbruck."],
+        ["1992", "Servizio civile presso la Croce Rossa di Bad Ischl (Alta Austria)."],
+        ["1992–1996", "Medicina generale: medico tirocinante presso l’ospedale provinciale di Schärding am Inn (Alta Austria)."],
+        ["1996–1997", "Collaborazione presso l’ospedale ortopedico provinciale Stolzalpe con il Prof. R. Graf (Stiria)."],
+        ["1997–1999", "Medico assistente di ortopedia e traumatologia presso l’ospedale di Merano con il primario Dr. H. Waldner (Alto Adige)."],
+        ["1999–2002", "Medico assistente di ortopedia I° presso la Hessingklinik di Augusta con il Prof. Dr. Dr. Klaus Asmus Matzen (Baviera)."],
         ["2002", "Specializzazione in ortopedia, Ordine dei medici di Vienna."],
         ["2002–06", "Medico dirigente presso il reparto di ortopedia dell’ospedale di Merano; focus sulla chirurgia della colonna vertebrale."],
-        ["2006", "Apertura di uno studio di ortopedia conservativa a Plaus."],
-        ["2017", "Apertura di uno studio di ortopedia conservativa a Merano."],
-        ["2026", "Sede principale dello studio a Merano."],
+        ["2006", "Apertura di uno studio di ortopedia conservativa a Plaus (Alto Adige)."],
+        ["2010", "Apertura di uno studio di ortopedia conservativa a Egna (Alto Adige)."],
+        ["2017", "Sede principale dello studio di ortopedia conservativa a Merano (Alto Adige)."],
       ];
   return (
     <>
       <section className="page-intro">
-        <p className="eyebrow">{de ? "Dr. Erich Bertol" : "Dr. Erich Bertol"}</p>
         <h1>{de ? "Facharzt für Orthopädie." : "Specialista in ortopedia."}</h1>
-        <p className="intro-copy">
-          {de ? "Konservative orthopädische Behandlung in Meran." : "Trattamento ortopedico conservativo a Merano."}
-        </p>
       </section>
-      <section className="page-grid">
+      <section className="page-grid single-column">
         <ol className="timeline">
           {items.map(([year, item]) => (
             <li key={year}>
@@ -373,7 +346,6 @@ function About({ language }: Pick<PageProps, "language">) {
             </li>
           ))}
         </ol>
-        <PhotoPlaceholder language={language} />
       </section>
     </>
   );
@@ -381,39 +353,53 @@ function About({ language }: Pick<PageProps, "language">) {
 
 function Contact({ language }: Pick<PageProps, "language">) {
   const de = language === "de";
-  const text = labels[language];
   return (
     <>
-      <section className="page-intro">
-        <p className="eyebrow">{de ? "Kontakt" : "Contatti"}</p>
-        <h1>{text.appointment}</h1>
+      <section className="page-intro contact-intro">
+        <h1>{de ? "Termin nach Vereinbarung." : "Appuntamento su prenotazione."}</h1>
         <p className="intro-copy">
           {de
             ? "Für Termine und organisatorische Fragen wenden Sie sich bitte telefonisch an das Sekretariat."
             : "Per appuntamenti e questioni organizzative, contattate telefonicamente la segreteria."}
         </p>
       </section>
-      <section className="page-grid">
+      <section className="page-grid contact-grid">
         <div>
           <div className="contact-panel">
             <div>
               <h3>{de ? "Sekretariat" : "Segreteria"}</h3>
-              <p>{de ? "Terminvereinbarung nur nach Voranmeldung." : "Appuntamenti solo previa prenotazione."}</p>
             </div>
             <a className="phone-link" href={phoneHref}>0473 661012</a>
           </div>
-          <div className="contact-panel">
-            <div>
-              <h3>{de ? "Praxis Meran" : "Studio Merano"}</h3>
-              <p>Otto-Huber-Straße 45, 39012 Meran</p>
-            </div>
-            <a className="button" href={mapUrl} target="_blank" rel="noreferrer">{text.map}</a>
+        </div>
+      </section>
+      <section className="contact-practice quiet-band" aria-label={de ? "Praxis" : "Studio"}>
+        <div className="section practice-contact-content">
+          <div>
+            <p className="intro-copy">
+              {de
+                ? "Die Praxis befindet sich in Meran. Termine werden über das Sekretariat vereinbart."
+                : "Lo studio si trova a Merano. Gli appuntamenti vengono concordati tramite la segreteria."}
+            </p>
+          </div>
+          <img
+            className="practice-photo"
+            src="/praxis-wartebereich.png"
+            alt={de ? "Wartebereich der Praxis Dr. Erich Bertol" : "Sala d’attesa dello studio del Dr. Erich Bertol"}
+          />
+        </div>
+      </section>
+      <section className="contact-location-section" aria-label={de ? "Standort" : "Sede"}>
+        <div className="page-grid contact-grid">
+          <div>
+            <Location language={language} variant="light" />
+            <img
+              className="contact-map"
+              src="/praxis-karte.png"
+              alt={de ? "Karte zur Praxis Dr. Erich Bertol in Meran" : "Mappa dello studio del Dr. Erich Bertol a Merano"}
+            />
           </div>
         </div>
-        <aside className="side-note">
-          <h3>{de ? "Beim ersten Termin" : "Per il primo appuntamento"}</h3>
-          <p>{de ? "Bitte vorhandene Befunde, Bilder und Medikamente mitbringen." : "Portare eventuali referti, immagini e medicinali."}</p>
-        </aside>
       </section>
     </>
   );
@@ -428,7 +414,6 @@ function Legal({ language, page }: PageProps) {
     return (
       <>
         <section className="page-intro legal-intro">
-          <p className="eyebrow">{text.privacy}</p>
           <h1>{de ? "Datenschutz in Vorbereitung." : "Informativa sulla privacy in preparazione."}</h1>
           <p className="intro-copy">
             {de
@@ -465,7 +450,6 @@ function Legal({ language, page }: PageProps) {
   return (
     <>
       <section className="page-intro legal-intro">
-        <p className="eyebrow">{text.imprint}</p>
         <h1>{de ? "Angaben zur Praxis." : "Dati dello studio."}</h1>
         <p className="intro-copy">
           {de

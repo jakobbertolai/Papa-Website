@@ -1,7 +1,7 @@
 :root {
   --ink: #172f40;
   --ink-soft: #405766;
-  --accent: #a9493f;
+  --accent: #16834a;
   --paper: #ffffff;
   --quiet: #f3f5f3;
   --line: #d5dcda;
@@ -81,15 +81,29 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 main { overflow: hidden; }
 .page-intro { width: var(--page); margin: 0 auto; padding: 4.8rem 0 2.75rem; }
+.practice-intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(20rem, .95fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+.practice-photo { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.contact-intro { width: min(760px, var(--page)); text-align: center; }
+.contact-intro h1, .contact-intro .intro-copy { margin-left: auto; margin-right: auto; }
 .eyebrow { color: var(--accent); font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 h1, h2, h3 { margin: 0; color: var(--ink); font-family: Georgia, "Times New Roman", serif; font-weight: 400; }
-h1 { max-width: 15ch; font-size: clamp(2.7rem, 6vw, 5.2rem); line-height: .99; letter-spacing: -.045em; }
-h2 { font-size: clamp(2rem, 3.6vw, 3.4rem); line-height: 1.05; letter-spacing: -.035em; }
+h1 { max-width: 20ch; font-size: clamp(2.35rem, 4.8vw, 4.35rem); line-height: 1.02; letter-spacing: -.04em; }
+h2 { font-size: clamp(1.8rem, 3.1vw, 3rem); line-height: 1.08; letter-spacing: -.03em; }
 h3 { font-family: Arial, Helvetica, sans-serif; font-size: 1.1rem; font-weight: 700; }
 .intro-copy { max-width: 39rem; color: var(--ink-soft); font-size: 1.14rem; margin: 1.25rem 0 0; }
+.page-subtitle { max-width: 40rem; margin: 1rem 0 0; color: var(--ink-soft); font-size: clamp(1.1rem, 1.7vw, 1.35rem); }
 
-.home-hero { width: var(--page); margin: 0 auto; padding: 5.5rem 0 5rem; display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(2rem, 6vw, 7rem); align-items: end; }
+.home-hero {
+  width: var(--page);
+  margin: 0 auto;
+  padding: 5.5rem clamp(1.4rem, 4vw, 3.5rem) 5rem;
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: clamp(2rem, 6vw, 7rem);
+  align-items: end;
+}
 .home-hero .intro-copy { margin-bottom: 1.7rem; }
+.home-orthopedic-logo { display: block; width: clamp(4.5rem, 9vw, 6.5rem); height: auto; margin: 0 0 1.1rem; }
 .hero-side { border-left: 1px solid var(--line); padding-left: clamp(1.2rem, 3vw, 2.6rem); }
 .hero-side p { margin: .35rem 0 1.4rem; color: var(--ink-soft); }
 
@@ -127,24 +141,25 @@ h3 { font-family: Arial, Helvetica, sans-serif; font-size: 1.1rem; font-weight: 
 
 .photo-placeholder {
   min-height: 19rem;
-  padding: 1.4rem;
-  display: flex;
-  align-items: flex-end;
-  border: 1px dashed #9facaa;
-  background: #e9eeec;
-  color: var(--ink-soft);
+  background: url("/dr-erich-bertol-hero.png") center / cover no-repeat;
 }
-.photo-placeholder span { max-width: 14rem; font-size: .88rem; }
 
 .quote { max-width: 52rem; margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 4vw, 3.65rem); line-height: 1.05; letter-spacing: -.035em; }
 .quote-note { margin: 1.5rem 0 0; color: var(--ink-soft); }
 
 .page-grid { width: var(--page); margin: 0 auto; padding: 0 0 5rem; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(15rem, .55fr); gap: clamp(2rem, 7vw, 8rem); }
+.page-grid.single-column { grid-template-columns: minmax(0, 1fr); }
+.page-grid.contact-grid { width: min(760px, var(--page)); grid-template-columns: minmax(0, 1fr); }
 .side-note { padding-top: .5rem; }
 .side-note p { color: var(--ink-soft); }
+.side-note-title { margin-top: 2.5rem; }
 
 .pill-list { display: flex; flex-wrap: wrap; gap: .55rem; margin: 1.3rem 0 0; padding: 0; list-style: none; }
 .pill-list li { padding: .4rem .68rem; border: 1px solid var(--line); color: var(--ink-soft); font-size: .88rem; }
+.concern-images { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; margin-top: 1rem; }
+.concern-images figure { margin: 0; }
+.concern-images img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: contain; border: 1px solid var(--line); background: #fff; }
+.concern-images figcaption { margin-top: .4rem; color: var(--ink-soft); font-size: .78rem; }
 
 .timeline { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
 .timeline li { display: grid; grid-template-columns: 5.2rem 1fr; gap: 1rem; padding: 1.15rem 0; border-bottom: 1px solid var(--line); }
@@ -156,9 +171,16 @@ h3 { font-family: Arial, Helvetica, sans-serif; font-size: 1.1rem; font-weight: 
 .location-block p { margin: .8rem 0; color: #e2e9e8; }
 .location-block .button { margin-top: 1.1rem; border-color: white; color: white; }
 .location-block .button:hover { color: var(--ink); background: white; }
+.location-block--light { border: 1px solid var(--line); color: var(--ink); background: white; }
+.location-block--light h2 { color: var(--ink); }
+.location-block--light p { color: var(--ink-soft); }
+.location-block--light .button { border-color: var(--ink); color: var(--ink); }
+.location-block--light .button:hover { color: white; background: var(--ink); }
 
 .contact-panel { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; padding: 1.5rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .contact-panel p { margin: .25rem 0 0; color: var(--ink-soft); }
+.contact-map { display: block; width: 100%; height: auto; margin-top: 1.5rem; border: 1px solid var(--line); }
+.practice-contact-content { display: grid; grid-template-columns: minmax(0, 1fr) minmax(20rem, .95fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
 .phone-link { color: var(--accent); font-size: clamp(1.45rem, 3vw, 2rem); font-weight: 700; text-decoration: none; white-space: nowrap; }
 .phone-link:hover { text-decoration: underline; }
 
@@ -189,9 +211,10 @@ h3 { font-family: Arial, Helvetica, sans-serif; font-size: 1.1rem; font-weight: 
   .mobile-menu a { padding: .68rem 0; border-bottom: 1px solid var(--line); color: var(--ink); font-weight: 700; text-decoration: none; }
   .mobile-menu .language-mobile { color: var(--accent); }
   .home-hero, .two-column, .page-grid { grid-template-columns: 1fr; }
-  .home-hero { padding: 3.8rem 0 3.4rem; gap: 2.2rem; }
+  .home-hero { padding: 3.8rem 1.2rem 3.4rem; gap: 2.2rem; }
   .hero-side { border-top: 1px solid var(--line); border-left: 0; padding: 1.35rem 0 0; }
   .page-intro { padding: 3.2rem 0 2rem; }
+  .practice-intro, .practice-contact-content { grid-template-columns: 1fr; }
   .section { padding: 3.5rem 0; }
   .section-head { display: block; }
   .section-head p { margin-top: .8rem; }
