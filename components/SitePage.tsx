@@ -185,16 +185,17 @@ function Home({ language }: Pick<PageProps, "language">) {
   const text = labels[language];
   return (
     <>
-      <section className="home-identity">
-        <img className="home-identity-logo" src="/eb-monogram.png" alt="EB" />
-        <div>
-          <h1>Erich Bertol</h1>
-          <p>{de ? "Facharzt für Orthopädie" : "Specialista in ortopedia"}</p>
+      <section className="home-identity-band">
+        <div className="home-identity">
+          <img className="home-identity-logo" src="/eb-monogram.png" alt="EB" />
+          <div>
+            <h1>Erich Bertol</h1>
+            <p>{de ? "Facharzt für Orthopädie" : "Specialista in ortopedia"}</p>
+          </div>
         </div>
       </section>
       <section className="home-hero">
         <div>
-          <img className="home-orthopedic-logo" src="/orthopedic-logo.png" alt="Orthopedic" />
           <h2 className="home-practice-title">{de ? "Praxis in Meran für konservative Orthopädie" : "Trattamento ortopedico conservativo"}</h2>
           <p className="intro-copy">
             {de
@@ -211,10 +212,13 @@ function Home({ language }: Pick<PageProps, "language">) {
           </div>
         </div>
         <div className="hero-side">
-          <h3>{text.appointment}</h3>
-          <a className="phone-link" href={phoneHref}>
-            0473 661012
-          </a>
+          <img className="home-orthopedic-logo" src="/orthopedic-logo.png" alt="Orthopedic" />
+          <div>
+            <h3>{text.appointment}</h3>
+            <a className="phone-link" href={phoneHref}>
+              0473 661012
+            </a>
+          </div>
         </div>
       </section>
 
